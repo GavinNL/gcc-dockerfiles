@@ -10,8 +10,8 @@ cd bionic-gcc7
 docker build -t ubuntu1804gcc:Dockerfile .
 
 
-cd ../gocal-gcc9
-docker build -t ubuntu1804gcc:Dockerfile .
+cd ../focal-gcc9
+docker build -t ubuntu2004gcc:Dockerfile .
 ```
 
 
