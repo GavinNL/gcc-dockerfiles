@@ -40,6 +40,7 @@ RUN dpkg --add-architecture i386 \
        python3 \
        python3-setuptools \
        python3-pip \
+       qtbase5-dev \
     && ln -s /usr/include/locale.h /usr/include/xlocale.h \
     && rm -rf /var/lib/apt/lists/* \
     && wget --no-check-certificate --quiet https://cmake.org/files/v3.16/cmake-3.16.4-Linux-x86_64.tar.gz \
