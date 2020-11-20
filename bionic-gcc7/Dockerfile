@@ -41,6 +41,9 @@ RUN dpkg --add-architecture i386 \
        python3-setuptools \
        python3-pip \
        qtbase5-dev \
+       libglu1-mesa-dev \
+       freeglut3-dev \
+       mesa-common-dev \
     && ln -s /usr/include/locale.h /usr/include/xlocale.h \
     && rm -rf /var/lib/apt/lists/* \
     && wget --no-check-certificate --quiet https://cmake.org/files/v3.16/cmake-3.16.4-Linux-x86_64.tar.gz \
@@ -60,11 +63,10 @@ RUN dpkg --add-architecture i386 \
     && adduser conan sudo \
     && printf "conan ALL= NOPASSWD: ALL\\n" >> /etc/sudoers \
     && pip3 install -q --upgrade --no-cache-dir pip \
-    && pip3 install -q --no-cache-dir conan conan-package-tools 
+    && pip3 install -q --no-cache-dir conan conan-package-tools
 
 
 USER conan
 WORKDIR /home/conan
 
-RUN mkdir -p /home/conan/.conan 
-
+RUN mkdir -p /home/conan/.conan
