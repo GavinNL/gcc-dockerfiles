@@ -53,12 +53,12 @@ RUN groupadd user -g 1000 \
     && useradd -ms /bin/bash user -g 1000 \
     && printf "user:user" | chpasswd \
     && adduser user sudo \
-    && printf "user ALL= NOPASSWD: ALL\\n" >> /etc/sudoers \
-    && pip3 install -q --upgrade --no-cache-dir pip \
-    && pip3 install -q --no-cache-dir conan conan-package-tools
+    && printf "user ALL= NOPASSWD: ALL\\n" >> /etc/sudoers 
 
 
 USER user
 WORKDIR /home/user
-
+ENV PATH=/home/user/.local/bin:$PATH
+RUN pip3 install -q --upgrade --no-cache-dir pip 
+RUN pip3 install -q --no-cache-dir conan conan-package-tools
 RUN mkdir -p /home/user/.conan

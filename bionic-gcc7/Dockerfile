@@ -1,6 +1,6 @@
 FROM ubuntu:bionic
 
-LABEL maintainer="Luis Martinez de Bartolome <luism@jfrog.com>"
+LABEL maintainer="Gavin Wolf"
 
 ENV CXX=/usr/bin/g++ \
     CC=/usr/bin/gcc \
@@ -43,30 +43,28 @@ RUN dpkg --add-architecture i386 \
        qtbase5-dev \
        libglu1-mesa-dev \
        freeglut3-dev \
-       mesa-common-dev \
+       mesa-common-dev \ 
     && ln -s /usr/include/locale.h /usr/include/xlocale.h \
     && rm -rf /var/lib/apt/lists/* \
-    && wget --no-check-certificate --quiet https://cmake.org/files/v3.16/cmake-3.16.4-Linux-x86_64.tar.gz \
-    && tar -xzf cmake-3.16.4-Linux-x86_64.tar.gz \
+    && wget --no-check-certificate --quiet https://github.com/Kitware/CMake/releases/download/v3.22.1/cmake-3.22.1-linux-x86_64.tar.gz \
+    && tar -xzf cmake-3.22.1-linux-x86_64.tar.gz \
        --exclude=bin/cmake-gui \
        --exclude=doc/cmake \
-       --exclude=share/cmake-3.12/Help \
-    && cp -fR cmake-3.16.4-Linux-x86_64/* /usr \
-    && rm -rf cmake-3.16.4-Linux-x86_64 \
-    && rm cmake-3.16.4-Linux-x86_64.tar.gz \
-    && groupadd 1001 -g 1001 \
-    && groupadd 1000 -g 1000 \
-    && groupadd 2000 -g 2000 \
-    && groupadd 999 -g 999 \
-    && useradd -ms /bin/bash conan -g 1001 -G 1000,2000,999 \
-    && printf "conan:conan" | chpasswd \
-    && adduser conan sudo \
-    && printf "conan ALL= NOPASSWD: ALL\\n" >> /etc/sudoers \
-    && pip3 install -q --upgrade --no-cache-dir pip \
-    && pip3 install -q --no-cache-dir conan conan-package-tools
+    && cp -fR cmake-3.22.1-linux-x86_64/* /usr \
+    && rm -rf cmake-3.22.1-linux-x86_64 \
+    && rm cmake-3.22.1-linux-x86_64.tar.gz
 
 
-USER conan
-WORKDIR /home/conan
+RUN groupadd user -g 1000 \
+    && useradd -ms /bin/bash user -g 1000 \
+    && printf "user:user" | chpasswd \
+    && adduser user sudo \
+    && printf "user ALL= NOPASSWD: ALL\\n" >> /etc/sudoers 
 
-RUN mkdir -p /home/conan/.conan
+
+USER user
+WORKDIR /home/user
+ENV PATH=/home/user/.local/bin:$PATH
+RUN pip3 install -q --upgrade --no-cache-dir pip 
+RUN pip3 install -q --no-cache-dir conan conan-package-tools
+RUN mkdir -p /home/user/.conan
