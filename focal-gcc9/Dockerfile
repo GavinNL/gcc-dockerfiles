@@ -46,21 +46,19 @@ RUN dpkg --add-architecture i386 \
        mesa-common-dev \
        libvulkan-dev \
        cmake \
-    && ln -s /usr/include/locale.h /usr/include/xlocale.h \
-    && rm -rf /var/lib/apt/lists/* \
-    && groupadd 1001 -g 1001 \
-    && groupadd 1000 -g 1000 \
-    && groupadd 2000 -g 2000 \
-    && groupadd 999 -g 999 \
-    && useradd -ms /bin/bash conan -g 1001 -G 1000,2000,999 \
-    && printf "conan:conan" | chpasswd \
-    && adduser conan sudo \
-    && printf "conan ALL= NOPASSWD: ALL\\n" >> /etc/sudoers \
+      && ln -s /usr/include/locale.h /usr/include/xlocale.h \
+      && rm -rf /var/lib/apt/lists/* 
+
+RUN groupadd user -g 1000 \
+    && useradd -ms /bin/bash user -g 1000 \
+    && printf "user:user" | chpasswd \
+    && adduser user sudo \
+    && printf "user ALL= NOPASSWD: ALL\\n" >> /etc/sudoers \
     && pip3 install -q --upgrade --no-cache-dir pip \
     && pip3 install -q --no-cache-dir conan conan-package-tools
 
 
-USER conan
-WORKDIR /home/conan
+USER user
+WORKDIR /home/user
 
-RUN mkdir -p /home/conan/.conan
+RUN mkdir -p /home/user/.conan
