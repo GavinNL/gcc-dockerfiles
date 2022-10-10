@@ -35,6 +35,7 @@ RUN dpkg --add-architecture i386 \
        liblzma-dev \
        ca-certificates \
        autoconf-archive \
+       make \
        g++ \
        gcc \
        python3 \
