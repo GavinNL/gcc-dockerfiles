@@ -39,6 +39,9 @@ RUN dpkg --add-architecture i386 \
        gcc \
        g++-8 \
        gcc-8 \
+       openssh-client \
+       tree \
+       patchelf \
        make \
        clang \
        python3 \
