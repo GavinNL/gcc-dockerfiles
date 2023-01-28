@@ -1,41 +1,24 @@
-# Conan-DockerFiles
+# Conan-DockerFiles (Podman)
 
-These are just some docker files that I am using to build Docker images for various C++ builds.
+These are some docker files that I am using to build Docker/Podman images for various C++ builds.
 
 These images are adapated from https://github.com/conan-io/conan-docker-tools
 
+There is single script that can be used to build all the images
 
 ```
-cd bionic-gcc7
-docker build -t ubuntu1804gcc:Dockerfile .
-
-
-cd ../focal-gcc9
-docker build -t ubuntu2004gcc:Dockerfile .
+./build_all.sh
 ```
 
+# Installing Podman
+Follow the instructions on this page to install podman on ubuntu 18.04
+  
+https://www.techrepublic.com/article/how-to-install-podman-on-ubuntu/
 
-# .bashrc
+# Installing Dependencies
 
-These functions are added to my `.bashrc` file to make it easier to quickly spin up the images for testing
+Install the following packages:
 
-```
-docker_gcc7() {
-echo "Using $PWD as Build folder"
-if [[ "$1" == "" ]]; then
-    echo "Argument 1 Needs to be the project folder"
-    return 1
-fi
-
-docker run -it -v ${PWD}:/home/conan/build -v $(realpath ${1}):/home/conan/project:ro ubuntu1804gcc:Dockerfile /bin/bash
-}
-docker_gcc9() {
-echo "Using $PWD as Build folder"
-if [[ "$1" == "" ]]; then
-    echo "Argument 1 Needs to be the project folder"
-    return 1
-fi
-
-docker run -it -v ${PWD}:/home/conan/build -v $(realpath ${1}):/home/conan/project:ro ubuntu2004gcc:Dockerfile /bin/bash
-}
+```bash
+sudo apt install buildah runc
 ```
