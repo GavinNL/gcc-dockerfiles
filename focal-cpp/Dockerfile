@@ -44,6 +44,8 @@ RUN dpkg --add-architecture i386 \
        patchelf \
        make \
        clang \
+       clang-10\
+       clang-11\
        python3 \
        python3-setuptools \
        python3-pip \
